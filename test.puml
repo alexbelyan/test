@@ -1,0 +1,47 @@
+@startuml
+actor User as User
+participant FaceAPI as FaceAPI
+database Database as Database
+database "Storage\nS3/FS" as Storage
+
+group Получения Person по ID
+User -> FaceAPI: GET /persons/<id>
+activate FaceAPI
+activate Database
+FaceAPI -> Database: Query DB
+Database --> FaceAPI
+FaceAPI --> User
+deactivate FaceAPI
+deactivate Database
+end
+
+group Получения всех Person с пагинацией
+User -> FaceAPI: GET /persons
+activate FaceAPI
+activate Database
+FaceAPI -> Database: Query DB
+Database --> FaceAPI
+FaceAPI --> User
+deactivate FaceAPI
+deactivate Database
+end
+
+User -> FaceAPI: GET /persons/<id>/images
+activate FaceAPI
+FaceAPI -> Database: Query DB
+activate Database
+Database --> FaceAPI
+deactivate Database
+FaceAPI -> Storage: List files
+activate Storage
+Storage --> FaceAPI
+deactivate Storage
+FaceAPI --> User
+deactivate FaceAPI
+
+User -> FaceAPI: GET /persons/<id>/images/<file_id>
+FaceAPI -> Storage: Get file
+Storage --> FaceAPI
+FaceAPI --> User
+
+@enduml
