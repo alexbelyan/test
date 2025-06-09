@@ -4,7 +4,7 @@ participant FaceAPI as FaceAPI
 database Database as Database
 database "Storage\nS3/FS" as Storage
 
-group Получения Person по ID
+group Получение Person по ID
 User -> FaceAPI: GET /persons/<id>
 activate FaceAPI
 activate Database
@@ -15,7 +15,7 @@ deactivate FaceAPI
 deactivate Database
 end
 
-group Получения всех Person с пагинацией
+group Получение всех Person с пагинацией
 User -> FaceAPI: GET /persons
 activate FaceAPI
 activate Database
@@ -26,6 +26,7 @@ deactivate FaceAPI
 deactivate Database
 end
 
+group Получение всех картинок персон
 User -> FaceAPI: GET /persons/<id>/images
 activate FaceAPI
 FaceAPI -> Database: Query DB
@@ -38,6 +39,7 @@ Storage --> FaceAPI
 deactivate Storage
 FaceAPI --> User
 deactivate FaceAPI
+end
 
 User -> FaceAPI: GET /persons/<id>/images/<file_id>
 FaceAPI -> Storage: Get file
