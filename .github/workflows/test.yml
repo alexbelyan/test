@@ -40,7 +40,7 @@ jobs:
         run: |
           RELEASE_BRANCH="${GITHUB_REF_NAME}"
           gh pr create \
-            -B develop \
+            -B main \
             -H $RELEASE_BRANCH \
             --title "[GitHub Actions] Merge $RELEASE_BRANCH -> main" \
             --label back-merge \
