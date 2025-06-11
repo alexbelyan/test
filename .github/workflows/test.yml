@@ -21,9 +21,9 @@ jobs:
           RELEASE_BRANCH="${GITHUB_REF_NAME}"
           echo "Raw PRs:"
           gh pr list \
-              --repo "$GITHUB_REPOSITORY" \
-              --json baseRefName,headRefName \
-              --jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\"))
+            --repo "$GITHUB_REPOSITORY" \
+            --json baseRefName,headRefName \
+            --jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\"))"
           prs=$(gh pr list \
               --repo "$GITHUB_REPOSITORY" \
               --json baseRefName,headRefName \
