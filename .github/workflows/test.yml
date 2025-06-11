@@ -26,7 +26,7 @@ jobs:
           echo "$RAW_PRS" | jq '.'
           
           # отфильтруем
-          MATCHING_COUNT=$(echo "$RAW_PRS" | jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"develop\")) | length")
+          MATCHING_COUNT=$(echo "$RAW_PRS" | jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\")) | length")
 
           echo "Matching PRs: $MATCHING_COUNT"
           
