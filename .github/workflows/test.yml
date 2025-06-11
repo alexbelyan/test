@@ -19,11 +19,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RELEASE_BRANCH="${GITHUB_REF_NAME}"
-          echo "Raw PRs:"
-          gh pr list \
+          RAW_PRS=$(gh pr list \
             --repo "$GITHUB_REPOSITORY" \
-            --json baseRefName,headRefName \
-            --jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\"))"
+            --json baseRefName,headRefName)
+          
+          echo "$RAW_PRS" | jq '.'
+          
+          # отфильтруем
+          MATCHING_COUNT=$(echo "$RAW_PRS" | jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"develop\")) | length")
+
+          echo "Matching PRs: $MATCHING_COUNT"
+          
           prs=$(gh pr list \
               --repo "$GITHUB_REPOSITORY" \
               --json baseRefName,headRefName \
