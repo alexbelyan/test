@@ -26,14 +26,14 @@ jobs:
           echo "$RAW_PRS" | jq '.'
           
           # отфильтруем
-          MATCHING_COUNT=$(echo "$RAW_PRS" | jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\")) | length")
+          MATCHING_COUNT=$(echo "$RAW_PRS" | jq "map(select(.baseRefName == \"main\" and .headRefName == \"$RELEASE_BRANCH\")) | length")
 
           echo "Matching PRs: $MATCHING_COUNT"
           
           prs=$(gh pr list \
               --repo "$GITHUB_REPOSITORY" \
               --json baseRefName,headRefName \
-              --jq "map(select(.baseRefName == \"$RELEASE_BRANCH\" and .headRefName == \"main\")) | length")
+              --jq "map(select(.baseRefName == \"main\" and .headRefName == \"$RELEASE_BRANCH\")) | length")
           if ((prs > 0)); then
               echo "Pull Request already exists"
               echo "SKIP=true" >> $GITHUB_ENV
